@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang=ES>
+<meta charset="UTF-8">
+  <head>
+      <script src="codigo.js"></script>
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+      <link rel="stylesheet" type="text/css"
+      href="style.css"/>
+    <title>Autor</title>
+  </head>
+  <body onload="updatePerson()">
+    <h1 class="Title">Crear/cambiar Autor</h1>
+    <nav>
+      <button onclick="logout()">Logout</button>
+      <button onclick="location.href='main.html'">Volver</button>
+    </nav>
+    <form id="nuevoAutor" onsubmit="savePerson();" action="main.html">
+        <label for="name">Nombre</label>
+        <input type="text" id="name"><br>
+        <label for="birthDate">Fecha De Nacimiento</label>
+        <input type="date" id="birthDate"><br>
+        <label for="deathDate">Fecha De Defuncion</label>
+        <input type="date" id="deathDate"><br>
+        <label for="imageUrl">Imagen URL</label>
+        <input type="text" id="imageUrl"><br>
+        <label for="wikiUrl">Wiki URL</label>
+        <input type="text" id="wikiUrl"><br>
+        <input type="submit" id="btn-create" value="Crear Autor">
+
+    </form>
+
+
+  </body>
+</html>

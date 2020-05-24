@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang=ES>
+<meta charset="UTF-8">
+  <head>
+      <script src="codigo.js"></script>
+      <link rel="stylesheet" type="text/css"
+      href="style.css"/>
+    <title>Entidad</title>
+  </head>
+  <body onload="updateEntidad()"> 
+    <h1 class="Title">Crear/Cambiar Entidad</h1>
+    <nav>
+      <button onclick="location.href='showed_index.html'">Logout</button>
+      <button onclick="location.href='opened_index.html'">Volver</button>
+    </nav>
+    <form id="nuevoProducto" onsubmit="guardarEntidad();" action="opened_index.html">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre"><br>
+        <label for="fechaDeNacimiento">Fecha De Nacimiento</label>
+        <input type="text" id="fechaDeNacimiento"><br>
+        <label for="fechaDeDefuncion">Fecha De Defuncion</label>
+        <input type="text" id="fechaDeDefuncion"><br>
+        <label for="wiki">Wiki URL</label>
+        <input type="text" id="wiki"><br>
+        <label for="imagen">Imagen URL</label>
+        <input type="text" id="imagen"><br>
+        <label for="autores">Autores</label>
+        <input type="text" id="autores"><br>
+        <label for="productos">Productos</label>
+        <input type="text" id="productos"><br>
+        <input type="submit" value="Crear Entidad">
+
+
+    </form>
+
+
+
+  </body>
+</html>
