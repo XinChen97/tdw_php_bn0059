@@ -173,7 +173,7 @@ class UserController
             ?? json_decode($request->getBody(), true);
         $req_data = $req_data ?? [];
 
-        if (!isset($req_data['username'], $req_data['email'], $req_data['password'])) { // 422 - Faltan datos
+        if (!isset($req_data['username'], $req_data['email'], $req_data['password'],$req_data['active'])) { // 422 - Faltan datos
             return Error::error($response, StatusCode::STATUS_UNPROCESSABLE_ENTITY);
         }
 
@@ -192,7 +192,8 @@ class UserController
             $req_data['username'],
             $req_data['email'],
             $req_data['password'],
-            $req_data['role'] ?? Role::ROLE_READER
+            $req_data['role'] ?? Role::ROLE_READER,
+            $req_data['active']
         );
         $this->entityManager->persist($user);
         $this->entityManager->flush($user);
@@ -262,6 +263,10 @@ class UserController
             } catch (OutOfRangeException $e) {    // 400 BAD_REQUEST: role Out or Range
                 return Error::error($response, StatusCode::STATUS_BAD_REQUEST);
             }
+        }
+        // active
+        if (isset($req_data['active'])) {
+            $user->setActive($req_data['active']);
         }
 
         $this->entityManager->flush($user);

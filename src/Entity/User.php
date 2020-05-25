@@ -79,24 +79,38 @@ class User implements JsonSerializable
     private Role $role;
 
     /**
+     * @ORM\Column(
+     *     name="active",
+     *     type="boolean",
+     *     nullable=false)
+     */
+    private bool $active;
+
+    /**
      * User constructor.
      *
      * @param string $username username
      * @param string $email email
      * @param string $password password
      * @param string $role Role::ROLE_READER | Role::ROLE_WRITER
+     * @param bool $active active
      */
+
+
+
     public function __construct(
         string $username = '',
         string $email = '',
         string $password = '',
-        string $role = Role::ROLE_READER
+        string $role = Role::ROLE_READER,
+        bool $active = false
     ) {
         $this->id       = 0;
         $this->username = $username;
         $this->email    = $email;
         $this->setPassword($password);
         $this->role     = new Role($role);
+        $this->active = $active;
     }
 
     /**
@@ -209,6 +223,29 @@ class User implements JsonSerializable
         return password_verify($password, $this->password);
     }
 
+
+    /**
+     * Get activeUser
+     *
+     * @return boolean
+     */
+    public function getActive(): bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set activeuser
+     *
+     * @param bool $active active
+     * @return User
+     */
+    public function setActive(bool $active): self
+    {
+        $this->active= $active;
+        return $this;
+    }
+
     /**
      * The __toString method allows a class to decide how it will react when it is converted to a string.
      *
@@ -222,6 +259,7 @@ class User implements JsonSerializable
             'username="' . $this->getUsername() . '", ' .
             'email="' . $this->getEmail() . '", ' .
             'role="' . $this->role .
+            'active=' . $this->active .
             '")]';
     }
 
@@ -239,7 +277,8 @@ class User implements JsonSerializable
                 'id' => $this->getId(),
                 'username' => $this->getUsername(),
                 'email' => $this->getEmail(),
-                'role' => $this->role->__toString()
+                'role' => $this->role->__toString(),
+                'active' => $this->getActive(),
             ]
         ];
     }

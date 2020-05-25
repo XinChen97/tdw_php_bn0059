@@ -1325,7 +1325,7 @@ components:
             response-406:
               $ref: '#/components/examples/response-406'
     Response_422:
-      description: "`UNPROCESSABLE ENTITY`: Username, e-mail or password is left out"
+      description: "`UNPROCESSABLE ENTITY`: Username, e-mail, password or active status is left out"
       content:
         application/json:
           schema:
@@ -1359,11 +1359,22 @@ components:
                 type: string
                 default: reader
                 enum: ['reader', 'writer']
+              active:
+                description: 'active status'
+                type: bool
+              firstname:
+                  description: 'First name'
+                  type: string
+              lastname:
+                    description: 'Last name'
+                    type: string
             example:
               username: username
               email: User_email@example.com
               password: User_password
               role: reader
+              active: false
+
     LoginRequestBody:
       description: Registered **username** and **password**
       required: true
@@ -1497,7 +1508,7 @@ components:
     response-422:
       value:
         code: 422
-        message: 'UNPROCESSABLE ENTITY: name, e-mail or password is left out'
+        message: 'UNPROCESSABLE ENTITY: Username, e-mail, password or active status is left out'
 
   securitySchemes:
     MiWApiSecurity:

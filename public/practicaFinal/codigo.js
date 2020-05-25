@@ -4,15 +4,17 @@ function personTable(){
     var tbody = document.createElement("tbody");
     tbody.setAttribute("id","body");
     table.appendChild(tbody);
+    var i=0;
     var j=0;
     let token =window.localStorage.getItem("token");
+    let role = window.localStorage.getItem("role");
     $.ajax({
         type: "GET",
         url: '/api/v1/persons',
         headers: {"Authorization": token},
         dataType: 'json',
         success: function (data) {
-            for(var i=0; i<data.persons.length; i++) {
+            for(i; i<data.persons.length; i++) {
                 var tr = document.createElement("tr");
                 tbody.appendChild(tr);
                 tr.setAttribute("class", "dato");
@@ -27,24 +29,23 @@ function personTable(){
                 a.setAttribute("href","mostrarAutor.html");
                 a.setAttribute("onclick","guardarSeleccion(event)");
             }
-            let role = window.localStorage.getItem("role");
-            if(role=="writer"){
-                var tr = document.createElement("tr");
-                tbody.appendChild(tr);
-                tr.setAttribute("class", "dato");
-                tr.setAttribute("id", "dato"+i);
-                var td = document.createElement("td");
-                td.setAttribute("id","nodo" + j++);
-                tr.appendChild(td);
-                var input = document.createElement("input");
-                input.setAttribute("type","button");
-                input.setAttribute("value","Crear");
-                input.setAttribute("onclick","location.href='nuevoAutor.html'");
-                td.appendChild(input);
-            }
         }
-    });
 
+    });
+    if(role=="writer"){
+        var tr = document.createElement("tr");
+        tbody.appendChild(tr);
+        tr.setAttribute("class", "dato");
+        tr.setAttribute("id", "dato"+i);
+        var td = document.createElement("td");
+        td.setAttribute("id","nodo" + j++);
+        tr.appendChild(td);
+        var input = document.createElement("input");
+        input.setAttribute("type","button");
+        input.setAttribute("value","Crear");
+        input.setAttribute("onclick","location.href='nuevoAutor.html'");
+        td.appendChild(input);
+    }
 
 }
 
@@ -55,6 +56,7 @@ function entityTable(){
     var tbody = document.createElement("tbody");
     tbody.setAttribute("id","body");
     table.appendChild(tbody);
+    var i=0;
     var j=0;
     let token =window.localStorage.getItem("token");
     $.ajax({
@@ -78,23 +80,23 @@ function entityTable(){
                 a.setAttribute("href","mostrarEntidad.html");
                 a.setAttribute("onclick","guardarSeleccion(event)");
             }
-            let role = window.localStorage.getItem("role");
-            if(role=="writer"){
-                var tr = document.createElement("tr");
-                tbody.appendChild(tr);
-                tr.setAttribute("class", "dato");
-                tr.setAttribute("id", "dato"+i);
-                var td = document.createElement("td");
-                td.setAttribute("id","nodo" + j++);
-                tr.appendChild(td);
-                var input = document.createElement("input");
-                input.setAttribute("type","button");
-                input.setAttribute("value","Crear");
-                input.setAttribute("onclick","location.href='nuevoEntidad.html'");
-                td.appendChild(input);
-            }
         }
     });
+    let role = window.localStorage.getItem("role");
+    if(role=="writer"){
+        var tr = document.createElement("tr");
+        tbody.appendChild(tr);
+        tr.setAttribute("class", "dato");
+        tr.setAttribute("id", "dato"+i);
+        var td = document.createElement("td");
+        td.setAttribute("id","nodo" + j++);
+        tr.appendChild(td);
+        var input = document.createElement("input");
+        input.setAttribute("type","button");
+        input.setAttribute("value","Crear");
+        input.setAttribute("onclick","location.href='nuevoEntidad.html'");
+        td.appendChild(input);
+    }
 }
 
 function productTable(){
@@ -103,6 +105,7 @@ function productTable(){
     var tbody = document.createElement("tbody");
     tbody.setAttribute("id","body");
     table.appendChild(tbody);
+    var i=0;
     var j=0;
     let token =window.localStorage.getItem("token");
     $.ajax({
@@ -126,23 +129,23 @@ function productTable(){
                 a.setAttribute("href","mostrarProducto.html");
                 a.setAttribute("onclick","guardarSeleccion(event)");
             }
-            let role = window.localStorage.getItem("role");
-            if(role=="writer"){
-                var tr = document.createElement("tr");
-                tbody.appendChild(tr);
-                tr.setAttribute("class", "dato");
-                tr.setAttribute("id", "dato"+i);
-                var td = document.createElement("td");
-                td.setAttribute("id","nodo" + j++);
-                tr.appendChild(td);
-                var input = document.createElement("input");
-                input.setAttribute("type","button");
-                input.setAttribute("value","Crear");
-                input.setAttribute("onclick","location.href='nuevoProducto.html'");
-                td.appendChild(input);
-            }
         }
     });
+    let role = window.localStorage.getItem("role");
+    if(role=="writer"){
+        var tr = document.createElement("tr");
+        tbody.appendChild(tr);
+        tr.setAttribute("class", "dato");
+        tr.setAttribute("id", "dato"+i);
+        var td = document.createElement("td");
+        td.setAttribute("id","nodo" + j++);
+        tr.appendChild(td);
+        var input = document.createElement("input");
+        input.setAttribute("type","button");
+        input.setAttribute("value","Crear");
+        input.setAttribute("onclick","location.href='nuevoProducto.html'");
+        td.appendChild(input);
+    }
 }
 
 function saveToken(token){
@@ -235,6 +238,16 @@ function showEntity(){
                 li.appendChild(a);
                 a.appendChild(text);
                 ul.appendChild(li);
+
+                li = document.createElement("li");
+                a = document.createElement("a");
+                text = document.createTextNode("Borrar");
+
+                a.setAttribute("href","main.html");
+                a.setAttribute("onclick","deleteEntity()");
+                li.appendChild(a);
+                a.appendChild(text);
+                ul.appendChild(li);
             }
             body.appendChild(ul);
 
@@ -284,7 +297,7 @@ function showEntity(){
 }
 
 
-function mostrarProducto(){
+function showProduct(){
 
     let role = window.localStorage.getItem("role");
     let token =window.localStorage.getItem("token");
@@ -318,7 +331,17 @@ function mostrarProducto(){
                 text = document.createTextNode("Editar");
 
                 a.setAttribute("href","nuevoProducto.html");
-                a.setAttribute("onclick","updateEntidad()");
+                a.setAttribute("onclick","updateProduct()");
+                li.appendChild(a);
+                a.appendChild(text);
+                ul.appendChild(li);
+
+                li = document.createElement("li");
+                a = document.createElement("a");
+                text = document.createTextNode("Borrar");
+
+                a.setAttribute("href","main.html");
+                a.setAttribute("onclick","deleteProduct()");
                 li.appendChild(a);
                 a.appendChild(text);
                 ul.appendChild(li);
@@ -462,6 +485,7 @@ function showPerson(){
         }
     });
 }
+
 function updatePerson() {
     let token = window.localStorage.getItem("token");
     var seleccion = window.localStorage.getItem("seleccion");
@@ -480,10 +504,48 @@ function updatePerson() {
         });
     }
 }
+
+function updateEntity() {
+    let token = window.localStorage.getItem("token");
+    var seleccion = window.localStorage.getItem("seleccion");
+    if (seleccion == -1) {
+        editEntity(0, 0);
+    } else {
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/entities',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var index = data.entities.map(function(x){return x.entity.name}).indexOf((seleccion));
+                editEntity(1,index);
+            }
+        });
+    }
+}
+
+function updateProduct() {
+    let token = window.localStorage.getItem("token");
+    var seleccion = window.localStorage.getItem("seleccion");
+    if (seleccion == -1) {
+        editEntity(0, 0);
+    } else {
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/products',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var index = data.products.map(function(x){return x.product.name}).indexOf((seleccion));
+                editProduct(1,index);
+            }
+        });
+    }
+}
+
 function editPerson(x,y){
     let token = window.localStorage.getItem("token");
     if(x==0){
-
     }else{
         $.ajax({
             type: "GET",
@@ -498,10 +560,49 @@ function editPerson(x,y){
                 document.getElementById("wikiUrl").value=data.persons[y].person.wikiUrl;
             }
         });
-
     }
-
 }
+
+function editEntity(x,y){
+    let token = window.localStorage.getItem("token");
+    if(x==0){
+    }else{
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/entities',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById("name").value=data.entities[y].entity.name;
+                document.getElementById("birthDate").value=data.entities[y].entity.birthDate;
+                document.getElementById("deathDate").value=data.entities[y].entity.deathDate;
+                document.getElementById("imageUrl").value=data.entities[y].entity.imageUrl;
+                document.getElementById("wikiUrl").value=data.entities[y].entity.wikiUrl;
+            }
+        });
+    }
+}
+
+function editProduct(x,y){
+    let token = window.localStorage.getItem("token");
+    if(x==0){
+    }else{
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/products',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById("name").value=data.products[y].product.name;
+                document.getElementById("birthDate").value=data.products[y].product.birthDate;
+                document.getElementById("deathDate").value=data.products[y].product.deathDate;
+                document.getElementById("imageUrl").value=data.products[y].product.imageUrl;
+                document.getElementById("wikiUrl").value=data.products[y].product.wikiUrl;
+            }
+        });
+    }
+}
+
 function savePerson(){
 
     var nameA =  document.getElementById("name").value;
@@ -512,13 +613,39 @@ function savePerson(){
 
     var seleccion = window.localStorage.getItem("seleccion");
     var token = window.localStorage.getItem("token");
-    var autor ={
-        name:nameA,
-        birthDate:birthDateA,
-        deathDate:deathDateA,
-        imageUrl:imageUrlA,
-        wikiUrl:wikiUrlA,
+    var autor;
+    if(birthDateA==''||deathDateA==''){
+        if(birthDateA=='' && deathDateA!=''){
+            autor ={
+                name:nameA,
+                birthDate:birthDateA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }else if(birthDateA!='' && deathDateA==''){
+            autor ={
+                name:nameA,
+                deathDate:deathDateA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }else{
+            autor ={
+                name:nameA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }
+    }else {
+        autor = {
+            name: nameA,
+            birthDate: birthDateA,
+            deathDate: deathDateA,
+            imageUrl: imageUrlA,
+            wikiUrl: wikiUrlA,
+        }
     }
+
     if(seleccion == -1){
         $.ajax({
             type: "POST",
@@ -557,6 +684,165 @@ function savePerson(){
     }
 }
 
+function saveEntity(){
+
+    var nameA =  document.getElementById("name").value;
+    var birthDateA = document.getElementById("birthDate").value;
+    var deathDateA = document.getElementById("deathDate").value;
+    var imageUrlA = document.getElementById("imageUrl").value;
+    var wikiUrlA = document.getElementById("wikiUrl").value;
+
+    var seleccion = window.localStorage.getItem("seleccion");
+    var token = window.localStorage.getItem("token");
+    var autor;
+    if(birthDateA==''||deathDateA==''){
+        if(birthDateA=='' && deathDateA!=''){
+            autor ={
+                name:nameA,
+                birthDate:birthDateA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }else if(birthDateA!='' && deathDateA==''){
+            autor ={
+                name:nameA,
+                deathDate:deathDateA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }else{
+            autor ={
+                name:nameA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }
+    }else {
+        autor = {
+            name: nameA,
+            birthDate: birthDateA,
+            deathDate: deathDateA,
+            imageUrl: imageUrlA,
+            wikiUrl: wikiUrlA,
+        }
+    }
+    if(seleccion == -1){
+        $.ajax({
+            type: "POST",
+            url: '/api/v1/entities',
+            headers: {"Authorization": token },
+            dataType: 'json',
+            data:autor,
+            success: function (data,status,response) {
+                alert("done");
+            }
+        })
+    }else{
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/entities',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var seleccion=window.localStorage.getItem("seleccion");
+                var index = data.entities.map(function(x){return x.entity.name}).indexOf((seleccion));
+                var id = data.entities[index].entity.id;
+                $.ajax({
+                    type: "PUT",
+                    url: '/api/v1/entities/' + id,
+                    headers: {"Authorization": token },
+                    dataType: 'json',
+                    data:autor,
+                    success: function (data,status,response) {
+                        alert("done");
+                    }
+                })
+
+            }
+        });
+
+    }
+}
+
+function saveProduct(){
+
+    var nameA =  document.getElementById("name").value;
+    var birthDateA = document.getElementById("birthDate").value;
+    var deathDateA = document.getElementById("deathDate").value;
+    var imageUrlA = document.getElementById("imageUrl").value;
+    var wikiUrlA = document.getElementById("wikiUrl").value;
+
+    var seleccion = window.localStorage.getItem("seleccion");
+    var token = window.localStorage.getItem("token");
+    var autor;
+    if(birthDateA==''||deathDateA==''){
+        if(birthDateA=='' && deathDateA!=''){
+            autor ={
+                name:nameA,
+                birthDate:birthDateA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }else if(birthDateA!='' && deathDateA==''){
+            autor ={
+                name:nameA,
+                deathDate:deathDateA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }else{
+            autor ={
+                name:nameA,
+                imageUrl:imageUrlA,
+                wikiUrl:wikiUrlA,
+            }
+        }
+    }else {
+        autor = {
+            name: nameA,
+            birthDate: birthDateA,
+            deathDate: deathDateA,
+            imageUrl: imageUrlA,
+            wikiUrl: wikiUrlA,
+        }
+    }
+    if(seleccion == -1){
+        $.ajax({
+            type: "POST",
+            url: '/api/v1/products',
+            headers: {"Authorization": token },
+            dataType: 'json',
+            data:autor,
+            success: function (data,status,response) {
+                alert("done");
+            }
+        })
+    }else{
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/products',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var seleccion=window.localStorage.getItem("seleccion");
+                var index = data.products.map(function(x){return x.product.name}).indexOf((seleccion));
+                var id = data.products[index].product.id;
+                $.ajax({
+                    type: "PUT",
+                    url: '/api/v1/products/' + id,
+                    headers: {"Authorization": token },
+                    dataType: 'json',
+                    data:autor,
+                    success: function (data,status,response) {
+                        alert("done");
+                    }
+                })
+
+            }
+        });
+
+    }
+}
 function deletePerson(){
     var result = confirm("¿Desea borrar este elemento?");
     if (result) {
@@ -584,6 +870,93 @@ function deletePerson(){
         });
     }
 }
+
+function deletePerson(){
+    var result = confirm("¿Desea borrar este elemento?");
+    if (result) {
+        var token = window.localStorage.getItem("token");
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/persons',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var seleccion=window.localStorage.getItem("seleccion");
+                var index = data.persons.map(function(x){return x.person.name}).indexOf((seleccion));
+                var id = data.persons[index].person.id;
+                $.ajax({
+                    type: "delete",
+                    url: '/api/v1/persons/' + id,
+                    headers: {"Authorization": token },
+                    dataType: 'json',
+                    success: function (data,status,response) {
+                        alert("done");
+                    }
+                })
+
+            }
+        });
+    }
+}
+
+function deleteEntity(){
+    var result = confirm("¿Desea borrar este elemento?");
+    if (result) {
+        var token = window.localStorage.getItem("token");
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/entities',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var seleccion=window.localStorage.getItem("seleccion");
+                var index = data.entities.map(function(x){return x.entity.name}).indexOf((seleccion));
+                var id = data.entities[index].entity.id;
+                $.ajax({
+                    type: "delete",
+                    url: '/api/v1/entities/' + id,
+                    headers: {"Authorization": token },
+                    dataType: 'json',
+                    success: function (data,status,response) {
+                        alert("done");
+                    }
+                })
+
+            }
+        });
+    }
+}
+
+
+function deleteProduct(){
+    var result = confirm("¿Desea borrar este elemento?");
+    if (result) {
+        var token = window.localStorage.getItem("token");
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/products',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var seleccion=window.localStorage.getItem("seleccion");
+                var index = data.products.map(function(x){return x.product.name}).indexOf((seleccion));
+                var id = data.products[index].product.id;
+                $.ajax({
+                    type: "delete",
+                    url: '/api/v1/products/' + id,
+                    headers: {"Authorization": token },
+                    dataType: 'json',
+                    success: function (data,status,response) {
+                        alert("done");
+                    }
+                })
+
+            }
+        });
+    }
+}
+
+
 
 
 
