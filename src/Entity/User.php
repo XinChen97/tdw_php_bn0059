@@ -87,6 +87,26 @@ class User implements JsonSerializable
     private bool $active;
 
     /**
+     * @ORM\Column(
+     *     name="firstname",
+     *     type="string",
+     *     length   = 60,
+     *     nullable=false)
+     */
+    private ?string $firstname;
+
+    /**
+     * @ORM\Column(
+     *     name="lastname",
+     *     type="string",
+     *     length   = 120,
+     *     nullable=false)
+     */
+    private ?string $lastname;
+
+
+
+    /**
      * User constructor.
      *
      * @param string $username username
@@ -94,6 +114,8 @@ class User implements JsonSerializable
      * @param string $password password
      * @param string $role Role::ROLE_READER | Role::ROLE_WRITER
      * @param bool $active active
+     * @param string|null $firstname firstname
+     * @param string|null $lastname lastname
      */
 
 
@@ -103,7 +125,9 @@ class User implements JsonSerializable
         string $email = '',
         string $password = '',
         string $role = Role::ROLE_READER,
-        bool $active = false
+        bool $active = false,
+        ?string $firstname = null,
+        ?string $lastname = null
     ) {
         $this->id       = 0;
         $this->username = $username;
@@ -111,6 +135,8 @@ class User implements JsonSerializable
         $this->setPassword($password);
         $this->role     = new Role($role);
         $this->active = $active;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
     }
 
     /**
@@ -247,6 +273,42 @@ class User implements JsonSerializable
     }
 
     /**
+     * @return string|null
+     */
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string|null $lastname
+     * @return User
+     */
+    public function setFirstname(?string $firstname): self
+    {
+        $this->firstname = $firstname;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string|null $lastname
+     * @return User
+     */
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
+        return $this;
+    }
+
+    /**
      * The __toString method allows a class to decide how it will react when it is converted to a string.
      *
      * @return string
@@ -258,8 +320,10 @@ class User implements JsonSerializable
             '(id=' . $this->getId() . ', ' .
             'username="' . $this->getUsername() . '", ' .
             'email="' . $this->getEmail() . '", ' .
-            'role="' . $this->role .
-            'active=' . $this->active .
+            'role="' . $this->role . '", ' .
+            'active=' . $this->active . '", ' .
+            'firstname=' . $this->firstname . '", ' .
+            'lastname=' . $this->lastname .
             '")]';
     }
 
@@ -279,6 +343,8 @@ class User implements JsonSerializable
                 'email' => $this->getEmail(),
                 'role' => $this->role->__toString(),
                 'active' => $this->getActive(),
+                'firstname'=> $this->getFirstname(),
+                'lastname' => $this->getLastname()
             ]
         ];
     }

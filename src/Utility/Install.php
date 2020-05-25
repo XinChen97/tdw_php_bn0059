@@ -60,12 +60,15 @@ abstract class Install
         Utils::updateSchema();
         $event->getIO()->write('>> Database UPDATED');
 
+
         return Utils::loadUserData(
             $_ENV['ADMIN_USER_NAME'],
             $_ENV['ADMIN_USER_EMAIL'],
             $_ENV['ADMIN_USER_PASSWD'],
             true,
-            true
+            true,
+            "Xin",
+            "Chen Xu",
         );
     }
 }

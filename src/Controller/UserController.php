@@ -193,7 +193,9 @@ class UserController
             $req_data['email'],
             $req_data['password'],
             $req_data['role'] ?? Role::ROLE_READER,
-            $req_data['active']
+            $req_data['active'],
+            $req_data['firstname'],
+            $req_data['lastname'],
         );
         $this->entityManager->persist($user);
         $this->entityManager->flush($user);
@@ -268,6 +270,17 @@ class UserController
         if (isset($req_data['active'])) {
             $user->setActive($req_data['active']);
         }
+
+        // firstname
+        if (isset($req_data['firstname'])) {
+            $user->setFirstname($req_data['firstname']);
+        }
+
+        // lastname
+        if (isset($req_data['lastname'])) {
+            $user->setLastname($req_data['lastname']);
+        }
+
 
         $this->entityManager->flush($user);
 

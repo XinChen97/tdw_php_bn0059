@@ -1338,6 +1338,7 @@ components:
     UserRequestBody:
       description: '`User` data'
       required: true
+      $ref:
       content:
         application/json:
           schema:
@@ -1363,17 +1364,19 @@ components:
                 description: 'active status'
                 type: bool
               firstname:
-                  description: 'First name'
-                  type: string
+                description: 'user firstname'
+                type: string
               lastname:
-                    description: 'Last name'
-                    type: string
+                description: 'user lastname'
+                type: string
             example:
               username: username
               email: User_email@example.com
               password: User_password
               role: reader
               active: false
+              firstname: firstname
+              lastname: lastname
 
     LoginRequestBody:
       description: Registered **username** and **password**
