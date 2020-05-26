@@ -1369,6 +1369,8 @@ components:
               lastname:
                 description: 'user lastname'
                 type: string
+              birthDate: { description: 'birthdate', type: string, format: date }
+
             example:
               username: username
               email: User_email@example.com
@@ -1377,6 +1379,7 @@ components:
               active: false
               firstname: firstname
               lastname: lastname
+              birthDate: "2020-01-01"
 
     LoginRequestBody:
       description: Registered **username** and **password**

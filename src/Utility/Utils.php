@@ -138,8 +138,6 @@ trait Utils
      * @param string $password user password
      * @param bool $isWriter isAdmin
      * @param bool $active activeAdmin
-     * @param string|null $firstname user firstname
-     * @param string|null $lastname user lastname
      * @return int user_id
      */
     public static function loadUserData(
@@ -147,18 +145,14 @@ trait Utils
         string $email,
         string $password,
         bool $isWriter = false,
-        bool $active,
-        string $firstname,
-        string $lastname
+        bool $active
     ): int {
         $user = new User(
             $username,
             $email,
             $password,
             ($isWriter) ? Role::ROLE_WRITER : Role::ROLE_READER,
-            $active,
-            $firstname,
-            $lastname
+            $active
         );
         try {
             $e_manager = self::getEntityManager();

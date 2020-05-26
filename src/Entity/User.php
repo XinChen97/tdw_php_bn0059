@@ -10,6 +10,7 @@ namespace TDW\ACiencia\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use OutOfRangeException;
+use DateTime;
 
 /**
  * @ORM\Entity()
@@ -91,7 +92,7 @@ class User implements JsonSerializable
      *     name="firstname",
      *     type="string",
      *     length   = 60,
-     *     nullable=false)
+     *     nullable=true)
      */
     private ?string $firstname;
 
@@ -100,11 +101,18 @@ class User implements JsonSerializable
      *     name="lastname",
      *     type="string",
      *     length   = 120,
-     *     nullable=false)
+     *     nullable=true)
      */
     private ?string $lastname;
 
-
+    /**
+     * @ORM\Column(
+     *     name="birthdate",
+     *     type="datetime",
+     *     nullable=true
+     *     )
+     */
+    protected ?DateTime $birthDate = null;
 
     /**
      * User constructor.
@@ -116,6 +124,7 @@ class User implements JsonSerializable
      * @param bool $active active
      * @param string|null $firstname firstname
      * @param string|null $lastname lastname
+     * @param DateTime|null $birthDate birthDate
      */
 
 
@@ -127,7 +136,8 @@ class User implements JsonSerializable
         string $role = Role::ROLE_READER,
         bool $active = false,
         ?string $firstname = null,
-        ?string $lastname = null
+        ?string $lastname = null,
+        ?DateTime $birthDate = null
     ) {
         $this->id       = 0;
         $this->username = $username;
@@ -137,6 +147,7 @@ class User implements JsonSerializable
         $this->active = $active;
         $this->firstname = $firstname;
         $this->lastname = $lastname;
+        $this->birthDate = $birthDate;
     }
 
     /**
@@ -309,6 +320,24 @@ class User implements JsonSerializable
     }
 
     /**
+     * @return DateTime|null
+     */
+    public function getBirthDate(): ?DateTime
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param DateTime|null $birthDate
+     * @return User
+     */
+    final public function setBirthDate(?DateTime $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+        return $this;
+    }
+
+    /**
      * The __toString method allows a class to decide how it will react when it is converted to a string.
      *
      * @return string
@@ -316,6 +345,9 @@ class User implements JsonSerializable
      */
     public function __toString(): string
     {
+        $birthDate = (null !== $this->getBirthDate())
+            ? $this->getBirthDate()->format('"Y-m-d"')
+            : '"null"';
         return '[' . basename(get_class($this)) . ' ' .
             '(id=' . $this->getId() . ', ' .
             'username="' . $this->getUsername() . '", ' .
@@ -323,7 +355,8 @@ class User implements JsonSerializable
             'role="' . $this->role . '", ' .
             'active=' . $this->active . '", ' .
             'firstname=' . $this->firstname . '", ' .
-            'lastname=' . $this->lastname .
+            'lastname=' . $this->lastname . '", ' .
+            'birthdate' . $birthDate .
             '")]';
     }
 
@@ -344,7 +377,8 @@ class User implements JsonSerializable
                 'role' => $this->role->__toString(),
                 'active' => $this->getActive(),
                 'firstname'=> $this->getFirstname(),
-                'lastname' => $this->getLastname()
+                'lastname' => $this->getLastname(),
+                'birthDate' => ($this->getBirthDate()) ? $this->getBirthDate()->format('Y-m-d') : null,
             ]
         ];
     }

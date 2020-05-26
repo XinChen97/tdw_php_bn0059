@@ -49,6 +49,7 @@ final class ProductRelationsControllerTest extends BaseTestCase
             parent::$writer['username'],
             parent::$writer['email'],
             parent::$writer['password'],
+            true,
             true
         );
 
@@ -62,7 +63,8 @@ final class ProductRelationsControllerTest extends BaseTestCase
             self::$reader['username'],
             self::$reader['email'],
             self::$reader['password'],
-            false
+            false,
+            true
         );
 
         // create and insert fixtures

@@ -19,6 +19,7 @@ use Slim\Routing\RouteContext;
 use TDW\ACiencia\Entity\Role;
 use TDW\ACiencia\Entity\User;
 use TDW\ACiencia\Utility\Error;
+use DateTime;
 
 /**
  * Class UserController
@@ -187,6 +188,10 @@ class UserController
             return Error::error($response, StatusCode::STATUS_BAD_REQUEST);
         }
 
+        $date = (DateTime::createFromFormat('!Y-m-d', $req_data['birthDate']));
+        if(!$date){
+            $date=null;
+        }
         // 201
         $user = new User(
             $req_data['username'],
@@ -196,6 +201,7 @@ class UserController
             $req_data['active'],
             $req_data['firstname'],
             $req_data['lastname'],
+            $date
         );
         $this->entityManager->persist($user);
         $this->entityManager->flush($user);
@@ -281,6 +287,14 @@ class UserController
             $user->setLastname($req_data['lastname']);
         }
 
+        // birthDate
+        if (isset($req_data['birthDate'])) {
+            $date = (DateTime::createFromFormat('!Y-m-d', $req_data['birthDate']));
+            if(!$date){
+                $date=null;
+            }
+            $user->setBirthDate($date);
+        }
 
         $this->entityManager->flush($user);
 

@@ -48,7 +48,8 @@ class UserControllerTest extends BaseTestCase
             self::$writer['username'],
             self::$writer['email'],
             self::$writer['password'],
-            true
+            true,
+            self::$faker->numberBetween(0, 1)
         );
 
         // load user reader fixtures
@@ -56,7 +57,8 @@ class UserControllerTest extends BaseTestCase
             self::$reader['username'],
             self::$reader['email'],
             self::$reader['password'],
-            false
+            false,
+            self::$faker->numberBetween(0, 1)
         );
     }
 
@@ -72,6 +74,10 @@ class UserControllerTest extends BaseTestCase
             'email'     => self::$faker->email,
             'password'  => self::$faker->password,
             'role'      => Role::ROLES[self::$faker->numberBetween(0, 1)],
+            'active'    => rand(0,1)==1,
+            'birthDate' => self::$faker->date('!Y-m-d'),
+            'firstname' => self::$faker->name,
+            'lastname' => self::$faker->name,
         ];
         $response = $this->runApp(
             'POST',
@@ -89,6 +95,7 @@ class UserControllerTest extends BaseTestCase
         self::assertSame($p_data['username'], $userData['username']);
         self::assertSame($p_data['email'], $userData['email']);
         self::assertEquals($p_data['role'], $userData['role']);
+        self::assertEquals($p_data['active'], $userData['active']);
 
         return $userData;
     }
@@ -130,7 +137,10 @@ class UserControllerTest extends BaseTestCase
         $p_data = [
             'username' => $user['username'],
             'email'    => self::$faker->email,
-            'password' => self::$faker->password
+            'password' => self::$faker->password,
+            'active'    => rand(0,1)==1,
+
+
         ];
         $response = $this->runApp(
             'POST',
@@ -144,7 +154,9 @@ class UserControllerTest extends BaseTestCase
         $p_data = [
             'username' => self::$faker->userName,
             'email'    => $user['email'],
-            'password' => self::$faker->password
+            'password' => self::$faker->password,
+            'active'    => rand(0,1)==1,
+
         ];
         $response = $this->runApp(
             'POST',
@@ -244,6 +256,7 @@ class UserControllerTest extends BaseTestCase
             'email'     => self::$faker->email,
             'password'  => self::$faker->password,
             'role'      => Role::ROLES[self::$faker->numberBetween(0, 1)],
+            'active'    => self::$faker->numberBetween(0, 1)
         ];
 
         $response = $this->runApp(
@@ -260,6 +273,7 @@ class UserControllerTest extends BaseTestCase
         self::assertSame($p_data['username'], $user_aux['user']['username']);
         self::assertSame($p_data['email'], $user_aux['user']['email']);
         self::assertEquals($p_data['role'], $user_aux['user']['role']);
+        self::assertEquals($p_data['active'], $user_aux['user']['active']);
 
         return $user_aux['user'];
     }

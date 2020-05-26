@@ -42,6 +42,7 @@ class LoginControllerTest extends BaseTestCase
             self::$writer['username'],
             self::$writer['email'],
             self::$writer['password'],
+            true,
             true
         );
     }

@@ -234,7 +234,7 @@ function showEntity(){
                 text = document.createTextNode("Editar");
 
                 a.setAttribute("href","nuevoEntidad.html");
-                a.setAttribute("onclick","updateEntidad()");
+                a.setAttribute("onclick","updateEntity()");
                 li.appendChild(a);
                 a.appendChild(text);
                 ul.appendChild(li);

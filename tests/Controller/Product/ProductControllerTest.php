@@ -46,6 +46,7 @@ class ProductControllerTest extends BaseTestCase
             parent::$writer['username'],
             parent::$writer['email'],
             parent::$writer['password'],
+            true,
             true
         );
 
@@ -54,7 +55,8 @@ class ProductControllerTest extends BaseTestCase
             self::$reader['username'],
             self::$reader['email'],
             self::$reader['password'],
-            false
+            false,
+            true
         );
     }
 
