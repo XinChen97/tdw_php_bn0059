@@ -34,7 +34,7 @@
             $("#form-login").serialize(),
             null
     ).success(function (data, textStatus, request) {
-      // Si es correcto => mostrar productos
+      console.log(data.users)
       authHeader = request.getResponseHeader('Authorization');
       saveToken(authHeader);
       window.location.replace("./main.html");

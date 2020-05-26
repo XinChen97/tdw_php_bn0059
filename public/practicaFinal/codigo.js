@@ -957,7 +957,6 @@ function deleteProduct(){
 }
 
 function check(){
-    console.log(document.getElementById("username").value)
 
     $.ajax({
         type: "get",
@@ -1003,31 +1002,36 @@ function registerAccount(){
         password:password,
         email:email,
         role:"reader",
-        active:false,
+        active:0,
         firstname:firstname,
         lastname:lastname,
         birthDate:birthDate
     }
+        $.post(
+            "/access_token",
+            {
+                username: "adminUser",
+                password: "*adminUser*"
+            },
+            null
+        ).success(function (data, textStatus, request) {
+            debugger;
+            authHeader = request.getResponseHeader('Authorization');
+            console.log(authHeader);
+            $.ajax({
+                type: "POST",
+                url: '/api/v1/users',
+                headers: {"Authorization": authHeader},
+                dataType: 'json',
+                data: user,
+                success: (function (data, status, response) {
+                    alert("done");
+                    window.location.replace("./index.html");
+                })
 
-    $.post(
-        "/access_token",
-        {username:"adminUser",
-        password:"*adminUser*"},
-        null
-    ).success(function (data, textStatus, request) {
-        // Si es correcto => mostrar productos
-        authHeader = request.getResponseHeader('Authorization');
-        $.ajax({
-        type: "POST",
-        url: '/api/v1/users',
-        headers: {"Authorization": authHeader },
-        dataType: 'json',
-        data:user,
-        success: function (data,status,response) {
-        }
-        })
-        alert("done");
-        window.location.replace("./index.html");
-    })
+            })
+        });
 }
+
+
 
