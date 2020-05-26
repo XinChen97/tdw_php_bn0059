@@ -956,8 +956,78 @@ function deleteProduct(){
     }
 }
 
+function check(){
+    console.log(document.getElementById("username").value)
 
+    $.ajax({
+        type: "get",
+        url: '/api/v1/users/username/' + document.getElementById("username").value,
+        dataType: 'json',
+        error: function (data,status,response) {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            window.localStorage.setItem("username", username);
+            window.localStorage.setItem("password", password);
+            window.location.replace("./register2.html");
+        },success: function (data,status,response) {
+            alert("Username already exists");
+        }
+    })
+}
 
+function loadRegisterData(){
+    document.getElementById("username").value=window.localStorage.getItem("username");
+    document.getElementById("password").value=window.localStorage.getItem("password");
+}
 
+function showPassword(){
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
 
+function registerAccount(){
+    let authHeader = null;
+
+    var username =  document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var email = document.getElementById("email").value;
+    var firstname = document.getElementById("firstname").value;
+    var lastname = document.getElementById("lastname").value;
+    var birthDate = document.getElementById("birthDate").value;
+    var user ={
+        username:username,
+        password:password,
+        email:email,
+        role:"reader",
+        active:false,
+        firstname:firstname,
+        lastname:lastname,
+        birthDate:birthDate
+    }
+
+    $.post(
+        "/access_token",
+        {username:"adminUser",
+        password:"*adminUser*"},
+        null
+    ).success(function (data, textStatus, request) {
+        // Si es correcto => mostrar productos
+        authHeader = request.getResponseHeader('Authorization');
+        $.ajax({
+        type: "POST",
+        url: '/api/v1/users',
+        headers: {"Authorization": authHeader },
+        dataType: 'json',
+        data:user,
+        success: function (data,status,response) {
+        }
+        })
+        alert("done");
+        window.location.replace("./index.html");
+    })
+}
 

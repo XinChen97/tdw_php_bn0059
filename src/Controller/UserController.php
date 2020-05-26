@@ -252,7 +252,7 @@ class UserController
 
         if (isset($req_data['email'])) {
             $usuarioId = $this->findIdBy('email', $req_data['email']);
-            if ($usuarioId && $args['userId'] !== $usuarioId) {
+            if ($usuarioId && $args['userId'] != $usuarioId) {
                 // 400 BAD_REQUEST: e-mail already exists
                 return Error::error($response, StatusCode::STATUS_BAD_REQUEST);
             }
