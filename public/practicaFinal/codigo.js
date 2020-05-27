@@ -180,6 +180,13 @@ function loggedIn() {
     var label = document.createElement("label");
     var text = document.createTextNode("Usuario " + name + ", bienvenido    ");
     label.appendChild(text);
+    var input = document.createElement("input");
+    input.setAttribute("type", "button");
+    input.setAttribute("value", "Perfil");
+    input.setAttribute("onclick", "location.href='perfil.html'");
+    label.appendChild(input);
+
+
     form.appendChild(label);
     var input = document.createElement("input");
     input.setAttribute("type", "button");
@@ -1046,6 +1053,200 @@ function registerAccount() {
 
         })
     });
+}
+
+function showProfile() {
+
+    let role = window.localStorage.getItem("role");
+    let token = window.localStorage.getItem("token");
+
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/users',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        success: function (data) {
+            var seleccion = window.localStorage.getItem("name");
+            var index = data.users.map(function (x) {
+                return x.user.username
+            }).indexOf((seleccion));
+            var body = document.getElementById("body");
+            var h1 = document.createElement("h1");
+            var text = document.createTextNode("Perfil");
+            h1.setAttribute("class", "Title");
+            h1.appendChild(text);
+            body.appendChild(h1);
+
+            var ul = document.createElement("ul");
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            text = document.createTextNode("Inicio");
+            li.appendChild(a);
+            a.appendChild(text);
+            a.setAttribute("href", "main.html");
+            ul.appendChild(li);
+
+            li = document.createElement("li");
+            a = document.createElement("a");
+            text = document.createTextNode("Editar Perfil");
+            a.setAttribute("href", "editperfil.html");
+            li.appendChild(a);
+            a.appendChild(text);
+            ul.appendChild(li);
+
+            if (role == "writer") {
+                li = document.createElement("li");
+                a = document.createElement("a");
+                text = document.createTextNode("Administrar");
+                a.setAttribute("href", "admin.html");
+                li.appendChild(a);
+                a.appendChild(text);
+                ul.appendChild(li);
+
+
+            }
+            body.appendChild(ul);
+
+            var p = document.createElement("p");
+            text = document.createTextNode("ID: " + data.users[index].user.id);
+            p.appendChild(text);
+            body.appendChild(p);
+
+            p = document.createElement("p");
+            text = document.createTextNode("Username: " + data.users[index].user.username);
+            p.appendChild(text);
+            body.appendChild(p);
+
+            p = document.createElement("p");
+            text = document.createTextNode("Nombre: " + data.users[index].user.firstname);
+            p.appendChild(text);
+            body.appendChild(p);
+
+            p = document.createElement("p");
+            text = document.createTextNode("Apellidos: " + data.users[index].user.lastname);
+            p.appendChild(text);
+            body.appendChild(p);
+
+            p = document.createElement("p");
+            text = document.createTextNode("Fecha de nacimiento: " + data.users[index].user.birthdate);
+            p.appendChild(text);
+            body.appendChild(p);
+        }
+    });
+}
+
+function editProfile(y) {
+    let token = window.localStorage.getItem("token");
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/users',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById("username").value=data.users[y].user.username;
+                document.getElementById("password").value
+                document.getElementById("email").value=data.users[y].user.email;
+                document.getElementById("firstname").value=data.users[y].user.firstname;
+                document.getElementById("lastname").value=data.users[y].user.lastname;
+                document.getElementById("birthDate").value=data.users[y].user.birthDate;
+            }
+        });
+
+}
+
+function updateProfile() {
+    let token = window.localStorage.getItem("token");
+    var seleccion = window.localStorage.getItem("name");
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/users',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data) {
+                var index = data.users.map(function (x) {
+                    return x.user.username
+                }).indexOf((seleccion));
+                editProfile(index);
+            }
+        });
+
+}
+
+function saveProfile() {
+
+    var usernameA = document.getElementById("username").value;
+    var passwordA = document.getElementById("password").value;
+    var emailA = document.getElementById("email").value;
+    var firstnameA = document.getElementById("firstname").value;
+    var lastnameA = document.getElementById("lastname").value;
+    var birthDateA = document.getElementById("birthDate").value;
+    var autor;
+
+    let token = window.localStorage.getItem("token");
+
+    if (birthDateA == '') {
+            autor = {
+                username: usernameA,
+                password: passwordA,
+                email: emailA,
+                firstname: firstnameA,
+                lastname:lastnameA,
+            }
+    } else {
+            autor = {
+                username: usernameA,
+                password: passwordA,
+                email: emailA,
+                firstname: firstnameA,
+                lastname:lastnameA,
+                birthDate:birthDateA,
+            }
+        }
+
+        useridFind();
+        var id = window.localStorage.getItem("id");
+        console.log(id);
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/users/' + id,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            data: autor,
+            success: function (data, status, response) {
+                window.localStorage.setItem("name",usernameA);
+                alert("done");
+                window.location.replace("./perfil.html");
+
+            },
+            error: function (jqXHR){
+                if(jqXHR.status===400){
+                    alert("nombre o email ya  existente");
+                }
+            }
+        });
+
+
+}
+
+function useridFind(){
+    let token = window.localStorage.getItem("token");
+    var username = window.localStorage.getItem("name");
+        $.ajax({
+            type: "GET",
+            url: '/api/v1/users',
+            headers: {"Authorization": token},
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                var index = data.users.map(function (x) {
+                    return x.user.username
+                }).indexOf((username));
+                console.log(index);
+                var id = data.users[index].user.id;
+                idFindAux(id);
+            }
+        });
+
 }
 
 
