@@ -34,10 +34,8 @@
             $("#form-login").serialize(),
             null
     ).success(function (data, textStatus, request) {
-      console.log(data.users)
       authHeader = request.getResponseHeader('Authorization');
       saveToken(authHeader);
-      window.location.replace("./main.html");
     }).fail(function () {
       alert("Incorrecto :(")
     });
@@ -45,3 +43,4 @@
 </script>
 </body>
 </html>
+

@@ -167,7 +167,14 @@ function saveToken(token) {
                 return x.user.username
             }).indexOf((name));
             var role = data.users[index].user.role;
-            window.localStorage.setItem("role", role);
+            var active = data.users[index].user.active;
+            if(active==0){
+                alert("Cuenta no activada")
+            }else{
+                window.localStorage.setItem("role", role);
+                window.location.replace("./main.html");
+
+            }
         }
     });
 }
@@ -276,6 +283,7 @@ function showEntity() {
             img.setAttribute("class", "autor");
             img.setAttribute("src", data.entities[index].entity.imageUrl);
             img.setAttribute("alt", "logo");
+            img.setAttribute("onerror",onerror="this.src='altImage.jpg'");
             body.appendChild(img);
 
 
@@ -375,6 +383,8 @@ function showProduct() {
             img.setAttribute("class", "autor");
             img.setAttribute("src", data.products[index].product.imageUrl);
             img.setAttribute("alt", "logo");
+            img.setAttribute("onerror",onerror="this.src='altImage.jpg'");
+
             body.appendChild(img);
 
 
@@ -471,6 +481,8 @@ function showPerson() {
             img.setAttribute("class", "autor");
             img.setAttribute("src", data.persons[index].person.imageUrl);
             img.setAttribute("alt", "logo");
+            img.setAttribute("onerror",onerror="this.src='altImage.jpg'");
+
             body.appendChild(img);
 
 
@@ -1036,22 +1048,22 @@ function registerAccount() {
         authHeader = request.getResponseHeader('Authorization');
         console.log(authHeader);
         async:false,
-        $.ajax({
-            type: "POST",
-            url: '/api/v1/users',
-            headers: {"Authorization": authHeader},
-            dataType: 'json',
-            data: user,
-            async:false,
-            success: (function (data, status, response) {
-                alert("done");
-                window.location.replace("./index.html");
-            }),error(e){
-                alert("Correo ya existente, prueba con otro");
-                window.location.replace("./register2.html");
-            }
+            $.ajax({
+                type: "POST",
+                url: '/api/v1/users',
+                headers: {"Authorization": authHeader},
+                dataType: 'json',
+                data: user,
+                async: false,
+                success: (function (data, status, response) {
+                    alert("done");
+                    window.location.replace("./index.html");
+                }), error(e) {
+                    alert("Correo ya existente, prueba con otro");
+                    window.location.replace("./register2.html");
+                }
 
-        })
+            })
     });
 }
 
@@ -1137,38 +1149,38 @@ function showProfile() {
 
 function editProfile(y) {
     let token = window.localStorage.getItem("token");
-        $.ajax({
-            type: "GET",
-            url: '/api/v1/users',
-            headers: {"Authorization": token},
-            dataType: 'json',
-            success: function (data) {
-                document.getElementById("username").value=data.users[y].user.username;
-                document.getElementById("password").value
-                document.getElementById("email").value=data.users[y].user.email;
-                document.getElementById("firstname").value=data.users[y].user.firstname;
-                document.getElementById("lastname").value=data.users[y].user.lastname;
-                document.getElementById("birthDate").value=data.users[y].user.birthDate;
-            }
-        });
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/users',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        success: function (data) {
+            document.getElementById("username").value = data.users[y].user.username;
+            document.getElementById("password").value
+            document.getElementById("email").value = data.users[y].user.email;
+            document.getElementById("firstname").value = data.users[y].user.firstname;
+            document.getElementById("lastname").value = data.users[y].user.lastname;
+            document.getElementById("birthDate").value = data.users[y].user.birthDate;
+        }
+    });
 
 }
 
 function updateProfile() {
     let token = window.localStorage.getItem("token");
     var seleccion = window.localStorage.getItem("name");
-        $.ajax({
-            type: "GET",
-            url: '/api/v1/users',
-            headers: {"Authorization": token},
-            dataType: 'json',
-            success: function (data) {
-                var index = data.users.map(function (x) {
-                    return x.user.username
-                }).indexOf((seleccion));
-                editProfile(index);
-            }
-        });
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/users',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        success: function (data) {
+            var index = data.users.map(function (x) {
+                return x.user.username
+            }).indexOf((seleccion));
+            editProfile(index);
+        }
+    });
 
 }
 
@@ -1185,69 +1197,219 @@ function saveProfile() {
     let token = window.localStorage.getItem("token");
 
     if (birthDateA == '') {
-            autor = {
-                username: usernameA,
-                password: passwordA,
-                email: emailA,
-                firstname: firstnameA,
-                lastname:lastnameA,
-            }
+        autor = {
+            username: usernameA,
+            password: passwordA,
+            email: emailA,
+            firstname: firstnameA,
+            lastname: lastnameA,
+        }
     } else {
-            autor = {
-                username: usernameA,
-                password: passwordA,
-                email: emailA,
-                firstname: firstnameA,
-                lastname:lastnameA,
-                birthDate:birthDateA,
+        autor = {
+            username: usernameA,
+            password: passwordA,
+            email: emailA,
+            firstname: firstnameA,
+            lastname: lastnameA,
+            birthDate: birthDateA,
+        }
+    }
+
+    useridFind();
+    var id = window.localStorage.getItem("id");
+    console.log(id);
+    $.ajax({
+        type: "PUT",
+        url: '/api/v1/users/' + id,
+        headers: {"Authorization": token},
+        dataType: 'json',
+        data: autor,
+        success: function (data, status, response) {
+            window.localStorage.setItem("name", usernameA);
+            alert("done");
+            window.location.replace("./perfil.html");
+
+        },
+        error: function (jqXHR) {
+            if (jqXHR.status === 400) {
+                alert("nombre o email ya  existente");
             }
         }
-
-        useridFind();
-        var id = window.localStorage.getItem("id");
-        console.log(id);
-        $.ajax({
-            type: "PUT",
-            url: '/api/v1/users/' + id,
-            headers: {"Authorization": token},
-            dataType: 'json',
-            data: autor,
-            success: function (data, status, response) {
-                window.localStorage.setItem("name",usernameA);
-                alert("done");
-                window.location.replace("./perfil.html");
-
-            },
-            error: function (jqXHR){
-                if(jqXHR.status===400){
-                    alert("nombre o email ya  existente");
-                }
-            }
-        });
-
+    });
 
 }
 
-function useridFind(){
+function useridFind() {
     let token = window.localStorage.getItem("token");
     var username = window.localStorage.getItem("name");
-        $.ajax({
-            type: "GET",
-            url: '/api/v1/users',
-            headers: {"Authorization": token},
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                var index = data.users.map(function (x) {
-                    return x.user.username
-                }).indexOf((username));
-                console.log(index);
-                var id = data.users[index].user.id;
-                idFindAux(id);
-            }
-        });
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/users',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            var index = data.users.map(function (x) {
+                return x.user.username
+            }).indexOf((username));
+            console.log(index);
+            var id = data.users[index].user.id;
+            idFindAux(id);
+        }
+    });
 
 }
 
+function loadUsers() {
 
+    var table = document.getElementById("userTable");
+    var tbody = document.createElement("tbody");
+    var label = document.createElement("label");
+    var input = document.createElement("input");
+    var span = document.createElement("span");
+
+    table.appendChild(tbody);
+
+    let token = window.localStorage.getItem("token");
+    var i = 0;
+    var j = 0;
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/users',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            for (i; i < data.users.length; i++) {
+                var tr = document.createElement("tr");
+                tbody.appendChild(tr);
+                var td = document.createElement("td");
+                tr.appendChild(td);
+                var text = document.createTextNode(data.users[i].user.id);
+                td.appendChild(text);
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.username);
+                td.appendChild(text);
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.email);
+                td.appendChild(text);
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.firstname);
+                td.appendChild(text);
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.lastname);
+                td.appendChild(text);
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.birthDate);
+                td.appendChild(text);
+
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                input = document.createElement("input");
+                input.setAttribute("type", "checkbox");
+                if (data.users[i].user.role == "writer") {
+                    input.checked = true;
+                }
+
+                input.setAttribute("onclick", "updateUser("+ data.users[i].user.id + ","+0+")");
+                span.setAttribute("class", "slider round");
+                label = document.createElement("label");
+                label.appendChild(input);
+                label.appendChild(span);
+                td.appendChild(label);
+
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                input = document.createElement("input");
+                input.setAttribute("type", "checkbox");
+                if (data.users[i].user.active == true) {
+                    input.checked = true;
+                }
+                input.setAttribute("onclick", "updateUser("+ data.users[i].user.id + ","+1+")");
+                span = document.createElement("span");
+                span.setAttribute("class", "slider round");
+                label = document.createElement("label");
+                label.appendChild(input);
+                label.appendChild(span);
+                td.appendChild(label);
+
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                input = document.createElement("input");
+                input.setAttribute("type", "button");
+                input.setAttribute("value", "eliminar");
+                td.appendChild(input);
+            }
+
+        }, error: function (data) {
+            alert("No funciona");
+        }
+
+
+    });
+}
+
+
+function updateUser(id,select) {
+    var role;
+    var active;
+
+    let token = window.localStorage.getItem("token");
+    $.ajax({
+        type: "get",
+        url: '/api/v1/users/' + id,
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data, status, response) {
+            role = data.user.role;
+            active = data.user.active;
+        },
+    });
+    if(select == 0){
+        if(role=="writer"){
+            role= "reader";
+
+        }else{
+            role = "writer"
+        }
+        var actu={
+            role:role,
+        }
+    }else{
+        if(active == 0){
+            active = 1;
+        }else{
+            active = 0;
+        }
+        var actu={
+            active:active,
+        }
+    }
+
+    $.ajax({
+        type: "PUT",
+        url: '/api/v1/users/' + id,
+        headers: {"Authorization": token},
+        dataType: 'json',
+        data: actu,
+        success: function (data, status, response) {
+            alert("done");
+        },
+    });
+
+}
 

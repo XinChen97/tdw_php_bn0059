@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[TDW] ACiencia - Practica Final </title>
+    <script src="codigo.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="style.css"/>
+</head>
+<body onload="loadUsers()">
+<h1 class="Title"><a class="title_link" href="main.html">Administrar Usuarios</a></h1>
+<nav>
+    <button onclick="logout()">Logout</button>
+    <button onclick="location.href='perfil.html'">Volver</button>
+</nav>
+
+<table id="userTable"/>
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>email</th>
+    <th>Nombre</th>
+    <th>Apellidos</th>
+    <th>Fecha de nacimiento</th>
+    <th>Writer</th>
+    <th>Activo</th>
+    <th>Acción</th>
+</tr>
+</thead>
+
+</body>
+
+
+
+</html>
