@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang=ES>
+<meta charset="UTF-8">
+<head>
+    <script src="codigo.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="style.css"/>
+    <title>Autor</title>
+</head>
+<body onload="editPersonRelation()">
+<h1 class="Title">Editar relacion persona</h1>
+<nav>
+    <button onclick="logout()">Logout</button>
+    <button onclick="history.back()">Volver</button>
+</nav>
+
+<form id="entityList" onsubmit="savePersonRelation(0);">
+    <label for="entities">Elija una entidad para enlazarla:</label>
+    <select id="entities" name="entityList" form="entityList" onChange="saveOption(this);">
+    </select>
+        <input type="submit">
+
+</form>
+
+<form id="productList" onsubmit="savePersonRelation(1);">
+    <label for="products">Elija un producto para enlazarla:</label>
+    <select id="products" name="productList" form="productList" onChange="saveOption(this);">
+    </select>
+    <input type="submit">
+
+</form>
+
+<form id="entityList2" onsubmit="savePersonRelation(2);">
+    <label for="entities2">Elija una entidad para borrar el enlace:</label>
+    <select id="entities2" name="entityList2" form="entityList2" onChange="saveOption(this);">
+    </select>
+    <input type="submit">
+
+</form>
+
+<form id="productList2" onsubmit="savePersonRelation(3)">
+    <label for="products2">Elija un producto para borrar el enlace:</label>
+    <select id="products2" name="productList2" form="productList2" onChange="saveOption(this);">
+    </select>
+    <input type="submit">
+
+</form>
+</body>
+</html>

@@ -268,6 +268,16 @@ function showEntity() {
                 ul.appendChild(li);
 
                 li = document.createElement("li");
+                var a = document.createElement("a");
+                text = document.createTextNode("Editar Relaciones");
+
+                a.setAttribute("href", "editEntityRelation.html");
+                a.setAttribute("onclick", "editEntityRelation()");
+                li.appendChild(a);
+                a.appendChild(text);
+                ul.appendChild(li);
+
+                li = document.createElement("li");
                 a = document.createElement("a");
                 text = document.createTextNode("Borrar");
 
@@ -311,6 +321,7 @@ function showEntity() {
             text = document.createTextNode("Productos relacionados: " + data.entities[index].entity.products);
             p.appendChild(text);
             body.appendChild(p);
+
 
 
             p = document.createElement("p");
@@ -363,6 +374,16 @@ function showProduct() {
 
                 a.setAttribute("href", "nuevoProducto.html");
                 a.setAttribute("onclick", "updateProduct()");
+                li.appendChild(a);
+                a.appendChild(text);
+                ul.appendChild(li);
+
+                li = document.createElement("li");
+                var a = document.createElement("a");
+                text = document.createTextNode("Editar Relaciones");
+
+                a.setAttribute("href", "editProductRelation.html");
+                a.setAttribute("onclick", "editProductRelation()");
                 li.appendChild(a);
                 a.appendChild(text);
                 ul.appendChild(li);
@@ -465,6 +486,16 @@ function showPerson() {
                 ul.appendChild(li);
 
                 li = document.createElement("li");
+                var a = document.createElement("a");
+                text = document.createTextNode("Editar Relaciones");
+
+                a.setAttribute("href", "editPersonRelation.html");
+                a.setAttribute("onclick", "editPersonRelation()");
+                li.appendChild(a);
+                a.appendChild(text);
+                ul.appendChild(li);
+
+                li = document.createElement("li");
                 a = document.createElement("a");
                 text = document.createTextNode("Borrar");
 
@@ -513,12 +544,13 @@ function showPerson() {
 
 
             p = document.createElement("p");
-            text = document.createTextNode("Wiki Url");
+            text = document.createTextNode("Wiki Url: ");
             var a = document.createElement("a");
             a.setAttribute("href", data.persons[index].person.wikiUrl);
             a.appendChild(text);
             p.appendChild(a);
             body.appendChild(p);
+
         }
     });
 }
@@ -1281,82 +1313,85 @@ function loadUsers() {
         async: false,
         success: function (data) {
             for (i; i < data.users.length; i++) {
-                var tr = document.createElement("tr");
-                tbody.appendChild(tr);
-                var td = document.createElement("td");
-                tr.appendChild(td);
-                var text = document.createTextNode(data.users[i].user.id);
-                td.appendChild(text);
+                    var tr = document.createElement("tr");
+                    tbody.appendChild(tr);
+                    var td = document.createElement("td");
+                    tr.appendChild(td);
+                    var text = document.createTextNode(data.users[i].user.id);
+                    td.appendChild(text);
 
-                td = document.createElement("td");
-                tr.appendChild(td);
-                text = document.createTextNode(data.users[i].user.username);
-                td.appendChild(text);
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    text = document.createTextNode(data.users[i].user.username);
+                    td.appendChild(text);
 
-                td = document.createElement("td");
-                tr.appendChild(td);
-                text = document.createTextNode(data.users[i].user.email);
-                td.appendChild(text);
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    text = document.createTextNode(data.users[i].user.email);
+                    td.appendChild(text);
 
-                td = document.createElement("td");
-                tr.appendChild(td);
-                text = document.createTextNode(data.users[i].user.firstname);
-                td.appendChild(text);
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    text = document.createTextNode(data.users[i].user.firstname);
+                    td.appendChild(text);
 
-                td = document.createElement("td");
-                tr.appendChild(td);
-                text = document.createTextNode(data.users[i].user.lastname);
-                td.appendChild(text);
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    text = document.createTextNode(data.users[i].user.lastname);
+                    td.appendChild(text);
 
-                td = document.createElement("td");
-                tr.appendChild(td);
-                text = document.createTextNode(data.users[i].user.birthDate);
-                td.appendChild(text);
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    text = document.createTextNode(data.users[i].user.birthDate);
+                    td.appendChild(text);
 
 
-                td = document.createElement("td");
-                tr.appendChild(td);
-                input = document.createElement("input");
-                input.setAttribute("type", "checkbox");
-                if (data.users[i].user.role == "writer") {
-                    input.checked = true;
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    input = document.createElement("input");
+                    input.setAttribute("type", "checkbox");
+                    if (data.users[i].user.role == "writer") {
+                        input.checked = true;
+                    }
+
+                    input.setAttribute("onclick", "updateUser(" + data.users[i].user.id + "," + 0 + ")");
+                    span.setAttribute("class", "slider round");
+                    label = document.createElement("label");
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    td.appendChild(label);
+
+
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    input = document.createElement("input");
+                    input.setAttribute("type", "checkbox");
+                    if (data.users[i].user.active == true) {
+                        input.checked = true;
+                    }
+                    input.setAttribute("onclick", "updateUser(" + data.users[i].user.id + "," + 1 + ")");
+                    span = document.createElement("span");
+                    span.setAttribute("class", "slider round");
+                    label = document.createElement("label");
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    td.appendChild(label);
+
+
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                     if (data.users[i].user.username != window.localStorage.getItem("name")) {
+                         if (data.users[i].user.role == "reader") {
+                             input = document.createElement("input");
+                             input.setAttribute("type", "button");
+                             input.setAttribute("onclick", "deleteUser(" + data.users[i].user.id + ")");
+                             input.setAttribute("value", "eliminar");
+                             td.appendChild(input);
+                         }
+                     }
                 }
 
-                input.setAttribute("onclick", "updateUser("+ data.users[i].user.id + ","+0+")");
-                span.setAttribute("class", "slider round");
-                label = document.createElement("label");
-                label.appendChild(input);
-                label.appendChild(span);
-                td.appendChild(label);
-
-
-                td = document.createElement("td");
-                tr.appendChild(td);
-                input = document.createElement("input");
-                input.setAttribute("type", "checkbox");
-                if (data.users[i].user.active == true) {
-                    input.checked = true;
-                }
-                input.setAttribute("onclick", "updateUser("+ data.users[i].user.id + ","+1+")");
-                span = document.createElement("span");
-                span.setAttribute("class", "slider round");
-                label = document.createElement("label");
-                label.appendChild(input);
-                label.appendChild(span);
-                td.appendChild(label);
-
-
-                td = document.createElement("td");
-                tr.appendChild(td);
-                input = document.createElement("input");
-                input.setAttribute("type", "button");
-                input.setAttribute("value", "eliminar");
-                td.appendChild(input);
             }
-
-        }, error: function (data) {
-            alert("No funciona");
-        }
 
 
     });
@@ -1413,3 +1448,152 @@ function updateUser(id,select) {
 
 }
 
+
+function deleteUser(id) {
+    var result = confirm("¿Desea borrar este elemento?");
+    if (result) {
+        var token = window.localStorage.getItem("token");
+        console.log(id);
+        $.ajax({
+            type: "delete",
+            url: '/api/v1/users/' + id,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        })
+
+    }
+}
+function editPersonRelation(){
+    var select = document.getElementById("entities");
+    let token = window.localStorage.getItem("token");
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/entities',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.entities.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.entities[i].entity.id);
+                var text = document.createTextNode(data.entities[i].entity.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("products")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/products',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.products.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.products[i].product.id);
+                var text = document.createTextNode(data.products[i].product.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("entities2");
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/entities',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.entities.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.entities[i].entity.id);
+                var text = document.createTextNode(data.entities[i].entity.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("products2")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/products',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.products.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.products[i].product.id);
+                var text = document.createTextNode(data.products[i].product.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+
+}
+
+
+function savePersonRelation(opc){
+    var sel = window.localStorage.getItem("opcion");
+
+        idFind("person")
+        var id = window.localStorage.getItem("id");
+
+        let token = window.localStorage.getItem("token");
+        if(opc==0) {
+
+            $.ajax({
+                type: "PUT",
+                url: '/api/v1/persons/' + id + '/entities/add/' + sel,
+                headers: {"Authorization": token},
+                dataType: 'json',
+                success: function (data, status, response) {
+                    alert("done");
+                }
+            });
+        }else if (opc==1){
+            $.ajax({
+                type: "PUT",
+                url: '/api/v1/persons/' + id + '/products/add/' + sel,
+                headers: {"Authorization": token},
+                dataType: 'json',
+                success: function (data, status, response) {
+                    alert("done");
+                }
+            });
+        }else if(opc==2) {
+
+            $.ajax({
+                type: "PUT",
+                url: '/api/v1/persons/' + id + '/entities/rem/' + sel,
+                headers: {"Authorization": token},
+                dataType: 'json',
+                success: function (data, status, response) {
+                    alert("done");
+                }
+            });
+        }else if (opc==3){
+            $.ajax({
+                type: "PUT",
+                url: '/api/v1/persons/' + id + '/products/rem/' + sel,
+                headers: {"Authorization": token},
+                dataType: 'json',
+                success: function (data, status, response) {
+                    alert("done");
+                }
+            });
+        }
+
+        window.localStorage.setItem("opcion",1);
+}
+
+function saveOption(sel) {
+    window.localStorage.setItem("opcion",sel.options[sel.selectedIndex].value);
+}
