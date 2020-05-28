@@ -382,8 +382,8 @@ function showProduct() {
                 var a = document.createElement("a");
                 text = document.createTextNode("Editar Relaciones");
 
-                a.setAttribute("href", "editProductRelation.html");
-                a.setAttribute("onclick", "editProductRelation()");
+                a.setAttribute("href", "editPrRelation.html");
+                a.setAttribute("onclick", "editProductRelation.html()");
                 li.appendChild(a);
                 a.appendChild(text);
                 ul.appendChild(li);
@@ -1466,6 +1466,7 @@ function deleteUser(id) {
 
     }
 }
+
 function editPersonRelation(){
     var select = document.getElementById("entities");
     let token = window.localStorage.getItem("token");
@@ -1593,6 +1594,263 @@ function savePersonRelation(opc){
 
         window.localStorage.setItem("opcion",1);
 }
+
+function editEntityRelation(){
+    let token = window.localStorage.getItem("token");
+    var select = document.getElementById("products")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/products',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.products.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.products[i].product.id);
+                var text = document.createTextNode(data.products[i].product.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("persons")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/persons',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.persons.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.persons[i].person.id);
+                var text = document.createTextNode(data.persons[i].person.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("products2")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/products',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.products.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.products[i].product.id);
+                var text = document.createTextNode(data.products[i].product.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("persons2")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/persons',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.persons.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.persons[i].person.id);
+                var text = document.createTextNode(data.persons[i].person.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+
+}
+
+
+function saveEntityRelation(opc){
+    var sel = window.localStorage.getItem("opcion");
+
+    idFind("entity")
+    var id = window.localStorage.getItem("id");
+
+    let token = window.localStorage.getItem("token");
+    if(opc==0) {
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/entities/' + id + '/products/add/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }else if (opc==1){
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/entities/' + id + '/persons/add/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }else if(opc==2) {
+
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/entities/' + id + '/products/rem/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }else if (opc==3){
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/entities/' + id + '/persons/rem/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }
+
+    window.localStorage.setItem("opcion",1);
+}
+
+function editProductRelation(){
+    var select = document.getElementById("entities");
+    let token = window.localStorage.getItem("token");
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/entities',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.entities.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.entities[i].entity.id);
+                var text = document.createTextNode(data.entities[i].entity.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("persons")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/persons',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.persons.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.persons[i].person.id);
+                var text = document.createTextNode(data.persons[i].person.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("entities2");
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/entities',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.entities.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.entities[i].entity.id);
+                var text = document.createTextNode(data.entities[i].entity.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+    var select = document.getElementById("persons2")
+    $.ajax({
+        type: "GET",
+        url: '/api/v1/persons',
+        headers: {"Authorization": token},
+        dataType: 'json',
+        async:false,
+        success: function (data) {
+            for (var i=0; i < data.persons.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",data.persons[i].person.id);
+                var text = document.createTextNode(data.persons[i].person.name);
+                option.appendChild(text);
+                select.appendChild(option);
+            }
+        }
+    });
+
+}
+
+
+function saveProductRelation(opc){
+    var sel = window.localStorage.getItem("opcion");
+
+    idFind("product")
+    var id = window.localStorage.getItem("id");
+
+    let token = window.localStorage.getItem("token");
+    if(opc==0) {
+
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/products/' + id + '/entities/add/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }else if (opc==1){
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/products/' + id + '/persons/add/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }else if(opc==2) {
+
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/products/' + id + '/entities/rem/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }else if (opc==3){
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/products/' + id + '/persons/rem/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }
+
+    window.localStorage.setItem("opcion",1);
+}
+
+
 
 function saveOption(sel) {
     window.localStorage.setItem("opcion",sel.options[sel.selectedIndex].value);

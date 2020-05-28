@@ -9,22 +9,22 @@
           href="style.css"/>
     <title>Autor</title>
 </head>
-<body onload="editEntityRelation()">
-<h1 class="Title">Editar relacion entidad</h1>
+<body onload="editProductRelation()">
+<h1 class="Title">Editar relacion producto</h1>
 <nav>
     <button onclick="logout()">Logout</button>
-    <button onclick="location.href='mostrarEntidad.html'">Volver</button>
+    <button onclick="location.href='mostrarProducto.html'">Volver</button>
 </nav>
 
-<form id="productList" onsubmit="saveEntityRelation(0);">
-    <label for="products">Elija un producto para enlazarla:</label>
-    <select id="products" name="productList" form="productList" onChange="saveOption(this);">
+<form id="entityList" onsubmit="saveProductRelation(0);">
+    <label for="entities">Elija una entidad para enlazarla:</label>
+    <select id="entities" name="entityList" form="entityList" onChange="saveOption(this);">
     </select>
     <input type="submit">
 
 </form>
 
-<form id="personList" onsubmit="saveEntityRelation(1);">
+<form id="personList" onsubmit="saveProductRelation(1);">
     <label for="persons">Elija una persona para enlazarla:</label>
     <select id="persons" name="personList" form="personList" onChange="saveOption(this);">
     </select>
@@ -32,16 +32,16 @@
 
 </form>
 
-<form id="productList2" onsubmit="saveEntityRelation(2);">
-    <label for="products2">Elija un producto para borrar el enlace:</label>
-    <select id="products2" name="productList2" form="productList2" onChange="saveOption(this);">
+<form id="entityList2" onsubmit="saveProductRelation(2);">
+    <label for="entities2">Elija una entidad para borrar el enlace:</label>
+    <select id="entities2" name="entityList2" form="entityList2" onChange="saveOption(this);">
     </select>
     <input type="submit">
 
 </form>
 
-<form id="personList2" onsubmit="saveEntityRelation(3)">
-    <label for="persons2">Elija una persona para borrar el enlace:</label>
+<form id="personList2" onsubmit="saveProductRelation(3)">
+    <label for="persons2">Elija un persona para borrar el enlace:</label>
     <select id="persons2" name="personList2" form="personList2" onChange="saveOption(this);">
     </select>
     <input type="submit">
