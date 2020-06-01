@@ -168,9 +168,9 @@ function saveToken(token) {
             }).indexOf((name));
             var role = data.users[index].user.role;
             var active = data.users[index].user.active;
-            if(active==0){
+            if (active == 0) {
                 alert("Cuenta no activada")
-            }else{
+            } else {
                 window.localStorage.setItem("role", role);
                 window.location.replace("./main.html");
 
@@ -293,7 +293,7 @@ function showEntity() {
             img.setAttribute("class", "autor");
             img.setAttribute("src", data.entities[index].entity.imageUrl);
             img.setAttribute("alt", "logo");
-            img.setAttribute("onerror",onerror="this.src='altImage.jpg'");
+            img.setAttribute("onerror", onerror = "this.src='altImage.png'");
             body.appendChild(img);
 
 
@@ -321,7 +321,6 @@ function showEntity() {
             text = document.createTextNode("Productos relacionados: " + data.entities[index].entity.products);
             p.appendChild(text);
             body.appendChild(p);
-
 
 
             p = document.createElement("p");
@@ -404,7 +403,7 @@ function showProduct() {
             img.setAttribute("class", "autor");
             img.setAttribute("src", data.products[index].product.imageUrl);
             img.setAttribute("alt", "logo");
-            img.setAttribute("onerror",onerror="this.src='altImage.jpg'");
+            img.setAttribute("onerror", onerror = "this.src='altImage.png'");
 
             body.appendChild(img);
 
@@ -512,7 +511,7 @@ function showPerson() {
             img.setAttribute("class", "autor");
             img.setAttribute("src", data.persons[index].person.imageUrl);
             img.setAttribute("alt", "logo");
-            img.setAttribute("onerror",onerror="this.src='altImage.jpg'");
+            img.setAttribute("onerror", onerror = "this.src='altImage.png'");
 
             body.appendChild(img);
 
@@ -1068,35 +1067,23 @@ function registerAccount() {
         lastname: lastname,
         birthDate: birthDate
     }
-    $.post(
-        "/access_token",
-        {
-            username: "adminUser",
-            password: "*adminUser*"
-        },
-        null
-    ).success(function (data, textStatus, request) {
-        debugger;
-        authHeader = request.getResponseHeader('Authorization');
-        console.log(authHeader);
-        async:false,
-            $.ajax({
-                type: "POST",
-                url: '/api/v1/users',
-                headers: {"Authorization": authHeader},
-                dataType: 'json',
-                data: user,
-                async: false,
-                success: (function (data, status, response) {
-                    alert("done");
-                    window.location.replace("./index.html");
-                }), error(e) {
-                    alert("Correo ya existente, prueba con otro");
-                    window.location.replace("./register2.html");
-                }
 
-            })
-    });
+    $.ajax({
+        type: "POST",
+        url: '/api/v1/users',
+        dataType: 'json',
+        data: user,
+        async: false,
+        success: (function (data, status, response) {
+            alert("done");
+            window.location.replace("./index.html");
+        }), error(e) {
+            alert("Correo ya existente, prueba con otro");
+            window.location.replace("./register2.html");
+        }
+
+    })
+
 }
 
 function showProfile() {
@@ -1313,92 +1300,92 @@ function loadUsers() {
         async: false,
         success: function (data) {
             for (i; i < data.users.length; i++) {
-                    var tr = document.createElement("tr");
-                    tbody.appendChild(tr);
-                    var td = document.createElement("td");
-                    tr.appendChild(td);
-                    var text = document.createTextNode(data.users[i].user.id);
-                    td.appendChild(text);
+                var tr = document.createElement("tr");
+                tbody.appendChild(tr);
+                var td = document.createElement("td");
+                tr.appendChild(td);
+                var text = document.createTextNode(data.users[i].user.id);
+                td.appendChild(text);
 
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                    text = document.createTextNode(data.users[i].user.username);
-                    td.appendChild(text);
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.username);
+                td.appendChild(text);
 
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                    text = document.createTextNode(data.users[i].user.email);
-                    td.appendChild(text);
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.email);
+                td.appendChild(text);
 
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                    text = document.createTextNode(data.users[i].user.firstname);
-                    td.appendChild(text);
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.firstname);
+                td.appendChild(text);
 
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                    text = document.createTextNode(data.users[i].user.lastname);
-                    td.appendChild(text);
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.lastname);
+                td.appendChild(text);
 
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                    text = document.createTextNode(data.users[i].user.birthDate);
-                    td.appendChild(text);
-
-
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                    input = document.createElement("input");
-                    input.setAttribute("type", "checkbox");
-                    if (data.users[i].user.role == "writer") {
-                        input.checked = true;
-                    }
-
-                    input.setAttribute("onclick", "updateUser(" + data.users[i].user.id + "," + 0 + ")");
-                    span.setAttribute("class", "slider round");
-                    label = document.createElement("label");
-                    label.appendChild(input);
-                    label.appendChild(span);
-                    td.appendChild(label);
+                td = document.createElement("td");
+                tr.appendChild(td);
+                text = document.createTextNode(data.users[i].user.birthDate);
+                td.appendChild(text);
 
 
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                    input = document.createElement("input");
-                    input.setAttribute("type", "checkbox");
-                    if (data.users[i].user.active == true) {
-                        input.checked = true;
-                    }
-                    input.setAttribute("onclick", "updateUser(" + data.users[i].user.id + "," + 1 + ")");
-                    span = document.createElement("span");
-                    span.setAttribute("class", "slider round");
-                    label = document.createElement("label");
-                    label.appendChild(input);
-                    label.appendChild(span);
-                    td.appendChild(label);
-
-
-                    td = document.createElement("td");
-                    tr.appendChild(td);
-                     if (data.users[i].user.username != window.localStorage.getItem("name")) {
-                         if (data.users[i].user.role == "reader") {
-                             input = document.createElement("input");
-                             input.setAttribute("type", "button");
-                             input.setAttribute("onclick", "deleteUser(" + data.users[i].user.id + ")");
-                             input.setAttribute("value", "eliminar");
-                             td.appendChild(input);
-                         }
-                     }
+                td = document.createElement("td");
+                tr.appendChild(td);
+                input = document.createElement("input");
+                input.setAttribute("type", "checkbox");
+                if (data.users[i].user.role == "writer") {
+                    input.checked = true;
                 }
 
+                input.setAttribute("onclick", "updateUser(" + data.users[i].user.id + "," + 0 + ")");
+                span.setAttribute("class", "slider round");
+                label = document.createElement("label");
+                label.appendChild(input);
+                label.appendChild(span);
+                td.appendChild(label);
+
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                input = document.createElement("input");
+                input.setAttribute("type", "checkbox");
+                if (data.users[i].user.active == true) {
+                    input.checked = true;
+                }
+                input.setAttribute("onclick", "updateUser(" + data.users[i].user.id + "," + 1 + ")");
+                span = document.createElement("span");
+                span.setAttribute("class", "slider round");
+                label = document.createElement("label");
+                label.appendChild(input);
+                label.appendChild(span);
+                td.appendChild(label);
+
+
+                td = document.createElement("td");
+                tr.appendChild(td);
+                if (data.users[i].user.username != window.localStorage.getItem("name")) {
+                    if (data.users[i].user.role == "reader") {
+                        input = document.createElement("input");
+                        input.setAttribute("type", "button");
+                        input.setAttribute("onclick", "deleteUser(" + data.users[i].user.id + ")");
+                        input.setAttribute("value", "eliminar");
+                        td.appendChild(input);
+                    }
+                }
             }
+
+        }
 
 
     });
 }
 
 
-function updateUser(id,select) {
+function updateUser(id, select) {
     var role;
     var active;
 
@@ -1408,30 +1395,30 @@ function updateUser(id,select) {
         url: '/api/v1/users/' + id,
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data, status, response) {
             role = data.user.role;
             active = data.user.active;
         },
     });
-    if(select == 0){
-        if(role=="writer"){
-            role= "reader";
+    if (select == 0) {
+        if (role == "writer") {
+            role = "reader";
 
-        }else{
+        } else {
             role = "writer"
         }
-        var actu={
-            role:role,
+        var actu = {
+            role: role,
         }
-    }else{
-        if(active == 0){
+    } else {
+        if (active == 0) {
             active = 1;
-        }else{
+        } else {
             active = 0;
         }
-        var actu={
-            active:active,
+        var actu = {
+            active: active,
         }
     }
 
@@ -1467,7 +1454,7 @@ function deleteUser(id) {
     }
 }
 
-function editPersonRelation(){
+function editPersonRelation() {
     var select = document.getElementById("entities");
     let token = window.localStorage.getItem("token");
     $.ajax({
@@ -1475,11 +1462,11 @@ function editPersonRelation(){
         url: '/api/v1/entities',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.entities.length; i++) {
+            for (var i = 0; i < data.entities.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.entities[i].entity.id);
+                option.setAttribute("value", data.entities[i].entity.id);
                 var text = document.createTextNode(data.entities[i].entity.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1492,11 +1479,11 @@ function editPersonRelation(){
         url: '/api/v1/products',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.products.length; i++) {
+            for (var i = 0; i < data.products.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.products[i].product.id);
+                option.setAttribute("value", data.products[i].product.id);
                 var text = document.createTextNode(data.products[i].product.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1509,11 +1496,11 @@ function editPersonRelation(){
         url: '/api/v1/entities',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.entities.length; i++) {
+            for (var i = 0; i < data.entities.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.entities[i].entity.id);
+                option.setAttribute("value", data.entities[i].entity.id);
                 var text = document.createTextNode(data.entities[i].entity.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1526,11 +1513,11 @@ function editPersonRelation(){
         url: '/api/v1/products',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.products.length; i++) {
+            for (var i = 0; i < data.products.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.products[i].product.id);
+                option.setAttribute("value", data.products[i].product.id);
                 var text = document.createTextNode(data.products[i].product.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1541,61 +1528,61 @@ function editPersonRelation(){
 }
 
 
-function savePersonRelation(opc){
+function savePersonRelation(opc) {
     var sel = window.localStorage.getItem("opcion");
 
-        idFind("person")
-        var id = window.localStorage.getItem("id");
+    idFind("person")
+    var id = window.localStorage.getItem("id");
 
-        let token = window.localStorage.getItem("token");
-        if(opc==0) {
+    let token = window.localStorage.getItem("token");
+    if (opc == 0) {
 
-            $.ajax({
-                type: "PUT",
-                url: '/api/v1/persons/' + id + '/entities/add/' + sel,
-                headers: {"Authorization": token},
-                dataType: 'json',
-                success: function (data, status, response) {
-                    alert("done");
-                }
-            });
-        }else if (opc==1){
-            $.ajax({
-                type: "PUT",
-                url: '/api/v1/persons/' + id + '/products/add/' + sel,
-                headers: {"Authorization": token},
-                dataType: 'json',
-                success: function (data, status, response) {
-                    alert("done");
-                }
-            });
-        }else if(opc==2) {
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/persons/' + id + '/entities/add/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    } else if (opc == 1) {
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/persons/' + id + '/products/add/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    } else if (opc == 2) {
 
-            $.ajax({
-                type: "PUT",
-                url: '/api/v1/persons/' + id + '/entities/rem/' + sel,
-                headers: {"Authorization": token},
-                dataType: 'json',
-                success: function (data, status, response) {
-                    alert("done");
-                }
-            });
-        }else if (opc==3){
-            $.ajax({
-                type: "PUT",
-                url: '/api/v1/persons/' + id + '/products/rem/' + sel,
-                headers: {"Authorization": token},
-                dataType: 'json',
-                success: function (data, status, response) {
-                    alert("done");
-                }
-            });
-        }
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/persons/' + id + '/entities/rem/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    } else if (opc == 3) {
+        $.ajax({
+            type: "PUT",
+            url: '/api/v1/persons/' + id + '/products/rem/' + sel,
+            headers: {"Authorization": token},
+            dataType: 'json',
+            success: function (data, status, response) {
+                alert("done");
+            }
+        });
+    }
 
-        window.localStorage.setItem("opcion",1);
+    window.localStorage.setItem("opcion", 1);
 }
 
-function editEntityRelation(){
+function editEntityRelation() {
     let token = window.localStorage.getItem("token");
     var select = document.getElementById("products")
     $.ajax({
@@ -1603,11 +1590,11 @@ function editEntityRelation(){
         url: '/api/v1/products',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.products.length; i++) {
+            for (var i = 0; i < data.products.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.products[i].product.id);
+                option.setAttribute("value", data.products[i].product.id);
                 var text = document.createTextNode(data.products[i].product.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1620,11 +1607,11 @@ function editEntityRelation(){
         url: '/api/v1/persons',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.persons.length; i++) {
+            for (var i = 0; i < data.persons.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.persons[i].person.id);
+                option.setAttribute("value", data.persons[i].person.id);
                 var text = document.createTextNode(data.persons[i].person.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1637,11 +1624,11 @@ function editEntityRelation(){
         url: '/api/v1/products',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.products.length; i++) {
+            for (var i = 0; i < data.products.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.products[i].product.id);
+                option.setAttribute("value", data.products[i].product.id);
                 var text = document.createTextNode(data.products[i].product.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1654,11 +1641,11 @@ function editEntityRelation(){
         url: '/api/v1/persons',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.persons.length; i++) {
+            for (var i = 0; i < data.persons.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.persons[i].person.id);
+                option.setAttribute("value", data.persons[i].person.id);
                 var text = document.createTextNode(data.persons[i].person.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1669,14 +1656,14 @@ function editEntityRelation(){
 }
 
 
-function saveEntityRelation(opc){
+function saveEntityRelation(opc) {
     var sel = window.localStorage.getItem("opcion");
 
     idFind("entity")
     var id = window.localStorage.getItem("id");
 
     let token = window.localStorage.getItem("token");
-    if(opc==0) {
+    if (opc == 0) {
         $.ajax({
             type: "PUT",
             url: '/api/v1/entities/' + id + '/products/add/' + sel,
@@ -1686,7 +1673,7 @@ function saveEntityRelation(opc){
                 alert("done");
             }
         });
-    }else if (opc==1){
+    } else if (opc == 1) {
         $.ajax({
             type: "PUT",
             url: '/api/v1/entities/' + id + '/persons/add/' + sel,
@@ -1696,7 +1683,7 @@ function saveEntityRelation(opc){
                 alert("done");
             }
         });
-    }else if(opc==2) {
+    } else if (opc == 2) {
 
         $.ajax({
             type: "PUT",
@@ -1707,7 +1694,7 @@ function saveEntityRelation(opc){
                 alert("done");
             }
         });
-    }else if (opc==3){
+    } else if (opc == 3) {
         $.ajax({
             type: "PUT",
             url: '/api/v1/entities/' + id + '/persons/rem/' + sel,
@@ -1719,10 +1706,10 @@ function saveEntityRelation(opc){
         });
     }
 
-    window.localStorage.setItem("opcion",1);
+    window.localStorage.setItem("opcion", 1);
 }
 
-function editProductRelation(){
+function editProductRelation() {
     var select = document.getElementById("entities");
     let token = window.localStorage.getItem("token");
     $.ajax({
@@ -1730,11 +1717,11 @@ function editProductRelation(){
         url: '/api/v1/entities',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.entities.length; i++) {
+            for (var i = 0; i < data.entities.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.entities[i].entity.id);
+                option.setAttribute("value", data.entities[i].entity.id);
                 var text = document.createTextNode(data.entities[i].entity.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1747,11 +1734,11 @@ function editProductRelation(){
         url: '/api/v1/persons',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.persons.length; i++) {
+            for (var i = 0; i < data.persons.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.persons[i].person.id);
+                option.setAttribute("value", data.persons[i].person.id);
                 var text = document.createTextNode(data.persons[i].person.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1764,11 +1751,11 @@ function editProductRelation(){
         url: '/api/v1/entities',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.entities.length; i++) {
+            for (var i = 0; i < data.entities.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.entities[i].entity.id);
+                option.setAttribute("value", data.entities[i].entity.id);
                 var text = document.createTextNode(data.entities[i].entity.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1781,11 +1768,11 @@ function editProductRelation(){
         url: '/api/v1/persons',
         headers: {"Authorization": token},
         dataType: 'json',
-        async:false,
+        async: false,
         success: function (data) {
-            for (var i=0; i < data.persons.length; i++) {
+            for (var i = 0; i < data.persons.length; i++) {
                 var option = document.createElement("option");
-                option.setAttribute("value",data.persons[i].person.id);
+                option.setAttribute("value", data.persons[i].person.id);
                 var text = document.createTextNode(data.persons[i].person.name);
                 option.appendChild(text);
                 select.appendChild(option);
@@ -1796,14 +1783,14 @@ function editProductRelation(){
 }
 
 
-function saveProductRelation(opc){
+function saveProductRelation(opc) {
     var sel = window.localStorage.getItem("opcion");
 
     idFind("product")
     var id = window.localStorage.getItem("id");
 
     let token = window.localStorage.getItem("token");
-    if(opc==0) {
+    if (opc == 0) {
 
         $.ajax({
             type: "PUT",
@@ -1814,7 +1801,7 @@ function saveProductRelation(opc){
                 alert("done");
             }
         });
-    }else if (opc==1){
+    } else if (opc == 1) {
         $.ajax({
             type: "PUT",
             url: '/api/v1/products/' + id + '/persons/add/' + sel,
@@ -1824,7 +1811,7 @@ function saveProductRelation(opc){
                 alert("done");
             }
         });
-    }else if(opc==2) {
+    } else if (opc == 2) {
 
         $.ajax({
             type: "PUT",
@@ -1835,7 +1822,7 @@ function saveProductRelation(opc){
                 alert("done");
             }
         });
-    }else if (opc==3){
+    } else if (opc == 3) {
         $.ajax({
             type: "PUT",
             url: '/api/v1/products/' + id + '/persons/rem/' + sel,
@@ -1847,11 +1834,10 @@ function saveProductRelation(opc){
         });
     }
 
-    window.localStorage.setItem("opcion",1);
+    window.localStorage.setItem("opcion", 1);
 }
 
 
-
 function saveOption(sel) {
-    window.localStorage.setItem("opcion",sel.options[sel.selectedIndex].value);
+    window.localStorage.setItem("opcion", sel.options[sel.selectedIndex].value);
 }

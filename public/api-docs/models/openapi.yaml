@@ -93,8 +93,6 @@ paths:
       summary: Creates a User resource.
       description: 'Creates a new user'
       operationId: api_users_post
-      security:
-        - MiWApiSecurity: [ writer ]
       requestBody:
         $ref: '#/components/requestBodies/UserRequestBody'
       responses:
@@ -156,7 +154,7 @@ paths:
       description: 'Updates the user identified by `userId`.'
       operationId: api_users_put
       security:
-        - MiWApiSecurity: [ writer ]
+        - MiWApiSecurity: [ reader ]
       parameters:
         - $ref: '#/components/parameters/userId'
       requestBody:

@@ -164,11 +164,6 @@ class UserController
      */
     public function post(Request $request, Response $response): Response
     {
-        // Error 403 scope: writer
-        if (false === $this->checkTokenScope($request->getAttribute('token'), Role::ROLE_WRITER)) {
-            return Error::error($response, StatusCode::STATUS_FORBIDDEN);
-        }
-
         $req_data
             = $request->getParsedBody()
             ?? json_decode($request->getBody(), true);
@@ -192,7 +187,7 @@ class UserController
         if(!$date){
             $date=null;
         }
-        // 201
+
         $user = new User(
             $req_data['username'],
             $req_data['email'],
@@ -225,12 +220,6 @@ class UserController
      */
     public function put(Request $request, Response $response, array $args): Response
     {
-        /*
-        // Error 403 scope: writer
-        if (false === $this->checkTokenScope($request->getAttribute('token'), Role::ROLE_WRITER)) {
-            return Error::error($response, StatusCode::STATUS_FORBIDDEN);
-        }*/
-
         $req_data
             = $request->getParsedBody()
             ?? json_decode($request->getBody(), true);

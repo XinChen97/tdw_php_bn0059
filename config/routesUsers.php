@@ -60,8 +60,7 @@ return function (App $app) {
     $app->post(
         $_ENV['RUTA_API'] . UserController::PATH_USERS,
         UserController::class . ':post'
-    )->setName('tdw_post_users')
-        ->add(JwtMiddleware::class);
+    )->setName('tdw_post_users');
 
     // PUT: Updates a user
     $app->put(
