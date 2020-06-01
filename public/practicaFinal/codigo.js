@@ -788,7 +788,7 @@ function savePerson() {
             dataType: 'json',
             data: autor,
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         })
     } else {
@@ -802,7 +802,7 @@ function savePerson() {
             dataType: 'json',
             data: autor,
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     }
@@ -859,7 +859,7 @@ function saveEntity() {
             dataType: 'json',
             data: autor,
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         })
     } else {
@@ -873,7 +873,7 @@ function saveEntity() {
             dataType: 'json',
             data: autor,
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         })
 
@@ -930,7 +930,7 @@ function saveProduct() {
             dataType: 'json',
             data: autor,
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         })
     } else {
@@ -944,7 +944,7 @@ function saveProduct() {
             dataType: 'json',
             data: autor,
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         })
 
@@ -965,7 +965,7 @@ function deletePerson() {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Eliminación completada");
             }
         })
 
@@ -986,7 +986,7 @@ function deleteEntity() {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Eliminación completada");
             }
         })
 
@@ -1008,7 +1008,7 @@ function deleteProduct() {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Eliminación completada");
             }
         })
 
@@ -1075,7 +1075,7 @@ function registerAccount() {
         data: user,
         async: false,
         success: (function (data, status, response) {
-            alert("done");
+            alert("Usuario registrado");
             window.location.replace("./index.html");
         }), error(e) {
             alert("Correo ya existente, prueba con otro");
@@ -1245,7 +1245,7 @@ function saveProfile() {
         data: autor,
         success: function (data, status, response) {
             window.localStorage.setItem("name", usernameA);
-            alert("done");
+            alert("Datos guardados");
             window.location.replace("./perfil.html");
 
         },
@@ -1429,7 +1429,7 @@ function updateUser(id, select) {
         dataType: 'json',
         data: actu,
         success: function (data, status, response) {
-            alert("done");
+            alert("Datos guardados");
         },
     });
 
@@ -1447,7 +1447,7 @@ function deleteUser(id) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Usuario eliminado");
             }
         })
 
@@ -1543,7 +1543,7 @@ function savePersonRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 1) {
@@ -1553,7 +1553,7 @@ function savePersonRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 2) {
@@ -1564,7 +1564,7 @@ function savePersonRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 3) {
@@ -1574,7 +1574,7 @@ function savePersonRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     }
@@ -1670,7 +1670,7 @@ function saveEntityRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 1) {
@@ -1680,7 +1680,7 @@ function saveEntityRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 2) {
@@ -1691,7 +1691,7 @@ function saveEntityRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 3) {
@@ -1701,7 +1701,7 @@ function saveEntityRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     }
@@ -1798,7 +1798,7 @@ function saveProductRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 1) {
@@ -1808,7 +1808,7 @@ function saveProductRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 2) {
@@ -1819,7 +1819,7 @@ function saveProductRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     } else if (opc == 3) {
@@ -1829,7 +1829,7 @@ function saveProductRelation(opc) {
             headers: {"Authorization": token},
             dataType: 'json',
             success: function (data, status, response) {
-                alert("done");
+                alert("Datos guardados");
             }
         });
     }
